@@ -1,5 +1,5 @@
-apiVersion: autoscaling/v2beta2
-kind: HorizantalPodAutoscaler
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
 metadata:
   name: autoscaling-apps
   namespace: default
@@ -11,13 +11,13 @@ spec:
   minReplicas: 1
   maxReplicas: 5
   metrics:
-  - type:
+  - type: Resource
     resource:
       name: cpu  #cpu based utilization 
       target:
         type: Utilization
         averageUtilization: 50 
-  - type:
+  - type: Resource
     resource:
       name: memory # memory based utilization
       target:

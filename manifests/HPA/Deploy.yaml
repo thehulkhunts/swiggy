@@ -37,3 +37,10 @@ spec:
         image: vinayjadhav/app:v1.0.0
         ports:
         - containerPort: 8080
+        resources:
+          limits:
+            cpu: "1m"
+            memory: "512Mi"
+          requests:
+            cpu: "0.5m"
+            memory: "256Mi"
