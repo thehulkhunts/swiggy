@@ -23,9 +23,17 @@ spec:
                 values:
                 - cache
             topologyKey: kubernetes.io/hostname
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - cache
+            topologyKey: kubernetes.io/hostname
       containers:
       - name: web-app
         image: vinayjadhav/app:v1.0.0
         ports:
         - containerPort: 8080
-        
