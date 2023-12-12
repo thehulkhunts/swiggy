@@ -1,0 +1,25 @@
+apiVersion: autoscaling/v2beta2
+kind: HorizantalPodAutoscaler
+metadata:
+  name: autoscaling-apps
+  namespace: default
+spec:
+  scaleTargetRef:
+     kind: Deployment
+     name: name of the deployment
+     apiVersion: apps/v1
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+  - type:
+    resource:
+      name: cpu  #cpu based utilization 
+      target:
+        type: Utilization
+        averageUtilization: 50 
+  - type:
+    resource:
+      name: memory # memory based utilization
+      target:
+        type: Utilization
+        averageUtilization: 50

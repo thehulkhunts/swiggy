@@ -1,0 +1,33 @@
+#This manifest tells us about podAffinity
+#podAffinity nothing but the node which has the pods as key=app and value=DB of place this deployment on that node, when you go with podAffinity 
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-apps
+  namespace: mcr-01
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      affinity:
+        podAffinity:    #podAffinity tells us that the node which has pods with the label of key=app and value=DB place it on that nodes
+          requiredDuringSchedulingIgnoredDuringExceution:
+          - labelSelector: #goes with labels 
+              matchExpressions: #matching with expressions 
+              - key: app   #Desired key and values 
+                operator: In
+                values:
+                - DB
+            topologyKey: "kubernetes.io/hostname"
+      containers:
+      - name: app
+        image: vinayjadhav/app:v1.0.0
+        ports:
+        - containerPort: 8080

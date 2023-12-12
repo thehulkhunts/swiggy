@@ -1,0 +1,33 @@
+#This manifest tells us about podAntiAffinity
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-apps
+  namespace: mcr-01
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      affinity:
+        podAntiAffinity:    #podAntiAffinity tells us that the node which has pods with the label of key=app and value=DB leave that node and place it on remaining nodes
+          requiredDuringSchedulingIgnoredDuringExceution:
+          - labelSelector: #goes with labels 
+              matchExpressions: #matching with expressions 
+              - key: app   #Desired key and values 
+                operator: In
+                values:
+                - DB
+            topologyKey: "kubernetes.io/hostname"
+      containers:
+      - name: app
+        image: vinayjadhav/app:v1.0.0
+        ports:
+        - containerPort: 8080
